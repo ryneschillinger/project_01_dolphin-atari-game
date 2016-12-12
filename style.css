@@ -1,0 +1,28 @@
+body {
+	height: 98vh;
+	background: url("img/ocean_bkgnd.jpg");
+	background-size: contain;
+	background-color: black;
+}
+
+#dolphin {
+	width: 254px;
+	height: 86px;
+	position: absolute;
+	top: 300px;
+	left: 600px;
+}
+
+#obstacle {
+	width: 100px;
+	height: 100px;
+	background-color: red;
+	position: absolute;
+	top: 60vh;
+	left: 1575px;
+	right: 0;
+}
+
+#seahorse-wall {
+	
+}
