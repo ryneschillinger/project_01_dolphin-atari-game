@@ -10,7 +10,15 @@ $(document).ready(function() {
 	var squidRight = $("#squid").position().left + 230;
 	var seahorsesLeft = $("#seahorse-wall").position().left;
 	var emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
-	var moveAmount = 30;
+	var player1Score = 0;
+	var moveAmount = 40;
+	var hasSeahorseCollided = false;
+
+	function gameOver() {
+		clearInterval(movingSeahorses);
+		clearInterval(movingSquid);
+		clearInterval(increaseScore);
+	}
 
 
 	// MOVING THE CHARACTER
@@ -24,34 +32,19 @@ $(document).ready(function() {
 	        dolphinTop -= moveAmount; 
 	        $("#dolphin").css("top", dolphinTop + "px");
 	    }
-
 	    // Down key
 	    else if (e.keyCode == 40 && dolphinTop < gameBoundaryBottom) {
 	    	$("#direction").text("Down arrow");
 	    	dolphinTop += moveAmount; 
 	    	$("#dolphin").css("top", dolphinTop + "px");
 	    }
-
-	    // // Left key
-	    // else if (e.keyCode == 37) {
-	    //     $("#direction").text("Left arrow");
-	    //     dolphinLeft -= moveAmount; 
-	    //     $("#dolphin").css("left", dolphinLeft + "px");
-	    // }
-
-	    // // Right key
-	    // else if (e.keyCode == 39) {
-	    // 	$("#direction").text("Right arrow");
-	    // 	dolphinLeft += moveAmount; 
-	    // 	$("#dolphin").css("left", dolphinLeft + "px");
-	    // }
 	}
 
 
 	// MAKING SEAHORSES MOVE LEFT
 
 	var movingSeahorses = window.setInterval(function(){
-		seahorsesLeft -= 5; 
+		seahorsesLeft -= 3; 
 		$("#seahorse-wall").css("left", seahorsesLeft + "px");
 	}, 5);
 
@@ -77,20 +70,21 @@ $(document).ready(function() {
 	}, 1);
 
 
+	// SCORING
+
+	var increaseScore = window.setInterval(function(){
+		$("#player-1-score").text(player1Score);
+		player1Score += 15;
+	}, 300);
+
+
 	// DETECTING COLLISIONS
 
-	function gameOver() {
-		clearInterval(movingSeahorses);
-		clearInterval(movingSquid);
-	}
-
-	var newSeahorseCollision = true;
-
 	var seahorsesCollision = window.setInterval(function(){
-		if ((dolphinLeft + 254 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + 54) && (dolphinTop <= emptyTop || dolphinTop >= emptyTop + 86) && newSeahorseCollision == true) {
-			newSeahorseCollision = false;
+		if ((dolphinLeft + 254 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + 54) && (dolphinTop <= emptyTop || dolphinTop >= emptyTop + 100) && hasSeahorseCollided == false) {
 			dolphinLeft -= 130; 
 			$("#dolphin").css("left", dolphinLeft + "px");
+			hasSeahorseCollided = true;
 		} 
 	}, 1);
 
@@ -102,28 +96,79 @@ $(document).ready(function() {
 
 
 	// REMOVE SEAHORSES ONCE THEY'VE LEFT THE SCREEN
-	// GENERATE NEW OBSTACLES
+	// GENERATE NEW SEAHORSES
 
-	var newSeahorses = "<div id='seahorse-wall'>" +
+	var seahorses = "<div id='seahorse-wall'>" +
 			"<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>" +
 			"<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>" +
 			"<div id='empty'></div>" +
 			"<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>" +
 			"<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>" +
 			"<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>" +
+			"<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>" +
 			"</div>";
+
+
+	// Remove old seahorses and insert new ones		
 
 	var clearSeahorses = window.setInterval(function() { 
 		if (seahorsesLeft < 0) {
 			$("#seahorse-wall").remove();
+			seahorsesOrder = [];
+			randomSeahorsesOrder();
+			makeNewSeahorses(seahorsesOrder);
 			seahorsesLeft = 1600;
-			$("body").append(newSeahorses);
-			newSeahorseCollision = true;
+			$(seahorses).insertAfter("#squid");
+			emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
+			console.log(emptyTop);
+			hasSeahorseCollided = false;
 		}
 	});
 
 
+	// Generate random order for new seahorses
+
+	var seahorsesOrder = [];
+
+	function randomSeahorsesOrder() {
+		var randomNumber = 0;
+		var numberOfTrues = 0;
+		for (var i = 1; i < 8; i++) {
+			randomNumber = Math.random();
+			// All six values so far have been false, so final must be true
+			if (i == 7 && numberOfTrues == 0) {
+				seahorsesOrder.push(true);
+			}	
+			// A true has already been assigned, so rest must be false
+			else if (numberOfTrues == 1) {
+				seahorsesOrder.push(false);
+			}
+			// No trues have been assigned yet, and randomly-generated boolean is a true
+			else if (randomNumber > 0.83) {
+				seahorsesOrder.push(true);
+				numberOfTrues++;
+			}
+			// Random boolean is a false
+			else {
+				seahorsesOrder.push(false);
+			}
+		}
+	}
+
+	// Change seahorse wall based on randomly-generated order
+
+	function makeNewSeahorses(array) {
+		seahorses = "<div id='seahorse-wall'>";
+		for (var i = 0; i < 7; i++) {
+			if (array[i] == false) {
+				seahorses += "<div class='seahorse'><img src='img/seahorse.svg' alt='seahorse'></div>";
+			}
+			else {
+				seahorses += "<div id='empty'></div>";
+			}
+		}
+		seahorses += "</div>";
+	}
+
+
 });
-
-
-// NOTES AND BUGS:
