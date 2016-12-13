@@ -5,12 +5,26 @@ body {
 	background-color: black;
 }
 
+#game-boundary {
+	width: 99%;
+	height: 560px;
+	position: absolute;
+	top: 162px;
+}
+
 #dolphin {
 	width: 254px;
 	height: 86px;
 	position: absolute;
-	top: 300px;
+	top: 350px;
 	left: 600px;
+}
+
+#squid {
+	width: 230px;
+	left: 50px;
+	position: absolute;
+	top: 350px;
 }
 
 #obstacle {
@@ -24,5 +38,23 @@ body {
 }
 
 #seahorse-wall {
-	
+	position: absolute;
+	left: 1600px;
+	top: 167px;
+	height: 560px;
+	width: 54px;
+}
+
+.seahorse {
+	display: block;
+	padding: 5px 0px;
+	width: 100%;
+	height: 69px;
+}
+
+#empty {
+	display: block;
+	padding: 5px 0px;
+	width: 100%;
+	height: 138px;
 }

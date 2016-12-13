@@ -2,13 +2,16 @@ $(document).ready(function() {
 
 	// SETTING POSITIONS & GAME CONTROLS
 
+	var gameBoundaryTop = $("#game-boundary").position().top;
+	var gameBoundaryBottom = $(window).height() - 250;
 	var dolphinTop = $("#dolphin").position().top;
 	var dolphinLeft = $("#dolphin").position().left;
-	var obstacleLeft = $("#obstacle").position().left;
-	var obstacleTop = $("#obstacle").position().top;
+	// var obstacleLeft = $("#obstacle").position().left;
+	// var obstacleTop = $("#obstacle").position().top;
+	var squidTop = $("#squid").position().top;
+	var seahorsesLeft = $("#seahorse-wall").position().left;
+	var emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
 	var moveAmount = 30;
-
-	console.log(obstacleTop);
 
 
 	// MOVING THE CHARACTER
@@ -17,14 +20,14 @@ $(document).ready(function() {
 
 	function keyPress(e) {
 		// Up key
-	    if (e.keyCode == 38) {
+	    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop + 10) {
 	        $("#direction").text("Up arrow");
 	        dolphinTop -= moveAmount; 
 	        $("#dolphin").css("top", dolphinTop + "px");
 	    }
 
 	    // Down key
-	    else if (e.keyCode == 40) {
+	    else if (e.keyCode == 40 && dolphinTop < gameBoundaryBottom) {
 	    	$("#direction").text("Down arrow");
 	    	dolphinTop += moveAmount; 
 	    	$("#dolphin").css("top", dolphinTop + "px");
@@ -46,29 +49,64 @@ $(document).ready(function() {
 	}
 
 
-	// MAKING OBSTACLES MOVE LEFT
+	// MAKING SEAHORSES MOVE LEFT
 
-	var movingObstacles = window.setInterval(function(){
-		obstacleLeft -= 5; 
-		$("#obstacle").css("left", obstacleLeft + "px");
+	// var movingObstacles = window.setInterval(function(){
+	// 	obstacleLeft -= 5; 
+	// 	$("#obstacle").css("left", obstacleLeft + "px");
+	// }, 5);
+
+	var movingSeahorses = window.setInterval(function(){
+		seahorsesLeft -= 5; 
+		$("#seahorse-wall").css("left", seahorsesLeft + "px");
 	}, 5);
+
+
+	// MAKING SQUID MOVE UP AND DOWN
+
+	squidMovingDown = true;
+
+	var movingSquid = window.setInterval(function(){
+		if (squidMovingDown == true) {
+			squidTop += 1; 
+			if (squidTop == gameBoundaryBottom + 10) {
+				squidMovingDown = false;
+			}
+		}
+		else {
+			squidTop -= 1; 
+			if (squidTop == gameBoundaryTop + 10) {
+				squidMovingDown = true;
+			}
+		}
+		$("#squid").css("top", squidTop + "px");
+	}, 1);
 
 
 	// DETECTING A COLLISION
 
 	function gameOver() {
-		clearInterval(movingObstacles);
+		clearInterval(movingSeahorses);
 	}
 
+	// var checkForCollision = window.setInterval(function(){
+	// 	if (dolphinLeft + 254 >= obstacleLeft && (dolphinTop >= obstacleTop - 90 && dolphinTop <= obstacleTop + 90)) {
+	// 		gameOver();
+	// 	} 
+	// }, 1);
+
 	var checkForCollision = window.setInterval(function(){
-		if (dolphinLeft + 254 >= obstacleLeft && (dolphinTop >= obstacleTop - 90 && dolphinTop <= obstacleTop + 90)) {
+		if (dolphinLeft + 254 >= seahorsesLeft && (dolphinTop <= emptyTop || dolphinTop >= emptyTop + 86)) {
 			gameOver();
 		} 
 	}, 1);
 
+	console.log(dolphinTop);
+	console.log(emptyTop);
 
-	// REMOVE OBSTACLE ONCE IT'S LEFT THE SCREEN
-	// GENERATE NEW OBSTACLE
+
+	// REMOVE OBSTACLES ONCE THEY'VE LEFT THE SCREEN
+	// GENERATE NEW OBSTACLES
 
 	var clearObstacle = window.setInterval(function() { 
 		if (obstacleLeft < 0) {
@@ -81,6 +119,7 @@ $(document).ready(function() {
 			console.log(newObstacleHeight);
 		}
 	});
+
 
 });
 
