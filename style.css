@@ -6,6 +6,8 @@ body {
 	font-family: 'Press Start 2P', cursive;
 	display: flex;
 	justify-content: center;
+	padding: 0px;
+	margin: 0px;
 }
 
 #game-boundary {
@@ -15,11 +17,11 @@ body {
 	top: 162px;
 }
 
-#dolphin {
+#player {
 	width: 254px;
 	height: 86px;
 	position: absolute;
-	top: 350px;
+	top: 340px;
 	left: 600px;
 }
 
@@ -120,7 +122,7 @@ button {
 	padding: 14px 13px 12px 16px;
 	margin-bottom: 16px;
 	transition-property: background-color, box-shadow;
-	transition-duration: 150ms;
+	transition-duration: 100ms;
 	cursor: pointer;
 }
 
@@ -128,4 +130,19 @@ button:hover, button:active {
 	background-color: #fec92f;
 	box-shadow: 6px 6px 0 black, 8px 8px 0 #fec92f;
 
+}
+
+#prompts {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0,0,28,.7);
+	z-index: 1;
+}
+
+#player-start {
+	margin-bottom: 70px;
+	color: white;
 }
