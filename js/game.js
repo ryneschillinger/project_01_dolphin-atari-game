@@ -18,13 +18,13 @@ $(document).ready(function() {
 
 	// START PLAYER'S TURN WITH PROMPT
 
+	window.onload = playerPromptTimer();
+	
 	function playerPromptTimer() {
 		setTimeout(function() {
 			$("#prompts").hide();
 		}, playerPromptDuration);
 	};
-
-	window.onload = playerPromptTimer();
 
 
 	// BEGIN GAMPLEPLAY ONLY AFTER PLAYER START PROMPT HAS DISAPPEARED
@@ -35,7 +35,12 @@ $(document).ready(function() {
 			clearInterval(movingSeahorses);
 			clearInterval(movingSquid);
 			clearInterval(increaseScore);
+			clearInterval(squidCollision);
+			$("#player").attr("src", "img/dolphin_player_1_game-over.png");
 		}
+
+		// START PLAYER CHARACTER ANIMATION
+		$("#player").attr("src", "img/dolphin_player_1_anim.gif");
 
 
 		// MOVING THE PLAYER CHARACTER

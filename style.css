@@ -21,7 +21,7 @@ body {
 	width: 254px;
 	height: 86px;
 	position: absolute;
-	top: 340px;
+	top: 335px;
 	left: 600px;
 }
 
@@ -143,6 +143,6 @@ button:hover, button:active {
 }
 
 #player-start {
-	margin-bottom: 70px;
+	margin-bottom: 50px;
 	color: white;
 }
