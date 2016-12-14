@@ -11,7 +11,7 @@ $(document).ready(function() {
 	var seahorsesLeft = $("#seahorse-wall").position().left;
 	var emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
 	var player1Score = 0;
-	var moveAmount = 40;
+	var moveAmount = 45;
 	var hasSeahorseCollided = false;
 
 	function gameOver() {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 	function keyPress(e) {
 		// Up key
-	    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop + 10) {
+	    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop + 30) {
 	        $("#direction").text("Up arrow");
 	        dolphinTop -= moveAmount; 
 	        $("#dolphin").css("top", dolphinTop + "px");
@@ -81,7 +81,7 @@ $(document).ready(function() {
 	// DETECTING COLLISIONS
 
 	var seahorsesCollision = window.setInterval(function(){
-		if ((dolphinLeft + 254 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + 54) && (dolphinTop <= emptyTop || dolphinTop >= emptyTop + 100) && hasSeahorseCollided == false) {
+		if ((dolphinLeft + 254 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + 54) && (dolphinTop <= emptyTop - 20 || dolphinTop >= emptyTop + 90) && hasSeahorseCollided == false) {
 			dolphinLeft -= 130; 
 			$("#dolphin").css("left", dolphinLeft + "px");
 			hasSeahorseCollided = true;

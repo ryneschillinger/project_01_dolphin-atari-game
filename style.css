@@ -1,9 +1,11 @@
 body {
 	height: 98vh;
 	background: url("img/ocean_bkgnd.jpg") no-repeat center center fixed;
-	background-size: contain;
+	background-size: 100% 100%;
 	background-color: black;
 	font-family: 'Press Start 2P', cursive;
+	display: flex;
+	justify-content: center;
 }
 
 #game-boundary {
@@ -60,13 +62,38 @@ body {
 	height: 120px;
 }
 
+h3 {
+	font-size: 26px;
+}
+
 #scoreboard {
 	position: absolute;
+	display: flex;
+	justify-content: center;
+	width: 95%;
 	bottom: 0;
 	left: 10;
-	padding: 0px 0px 0px 30px;
-	font-size: 26px;
+	padding: 0px 0px 1px 30px;
 	color: white;
+}
+
+.score-column {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 29%;
+	margin: 0 1%;
+	text-align: center;
+	margin-bottom: 4px;
+}
+
+.button-column {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 14%;
+	margin: 0 1%;
+	padding-right: 3%;
 }
 
 .green {
@@ -75,4 +102,30 @@ body {
 
 .white {
 	color: white;
+}
+
+.blue {
+	color: #489bd9;
+}
+
+button {
+	background: none;
+	border: none;
+	outline: none;
+	color: black;
+	background-color: white;
+	box-shadow: 6px 6px 0 black, 8px 8px 0 white;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 15px;
+	padding: 14px 13px 12px 16px;
+	margin-bottom: 16px;
+	transition-property: background-color, box-shadow;
+	transition-duration: 150ms;
+	cursor: pointer;
+}
+
+button:hover, button:active {
+	background-color: #fec92f;
+	box-shadow: 6px 6px 0 black, 8px 8px 0 #fec92f;
+
 }
