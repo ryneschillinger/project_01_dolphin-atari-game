@@ -214,3 +214,8 @@ h6#legal {
 	height: 100%;
 	z-index: 0;
 }
+
+button#resume {
+	visibility: hidden;
+	margin-right: 10px;
+}

@@ -18,6 +18,7 @@ $(document).ready(function() {
 	var player1Turn = true;
 	var moveIncrement = windowHeight*.05;
 	var hasSeahorseCollided = false;
+	var gamePaused = false;
 
 
 	// CLICK "START GAME" FROM TITLE SCREEN
@@ -27,7 +28,6 @@ $(document).ready(function() {
 	    $("#game").css("visibility", "visible");
 	    initiateGameplay();
 	});
-
 
 	function initiateGameplay() {
 
@@ -48,8 +48,20 @@ $(document).ready(function() {
 		playerPromptTimer();
 
 
+		// RESUMING GAME AFTER PAUSE
+
+		$("#resume").click(function() {
+			gamePaused = false;
+			$("#resume").css("visibility", "hidden");
+			$("#prompts").hide();
+			startGameplay();
+		});
+
+
 		// BEGIN GAMPLEPLAY ONLY AFTER PLAYER START PROMPT HAS DISAPPEARED
-		function startGameplay() { setTimeout(function() {
+		function startGameplay() { 
+
+			gamePaused = false;
 
 
 			// START PLAYER CHARACTER ANIMATION
@@ -66,21 +78,48 @@ $(document).ready(function() {
 			document.onkeydown = keyPress;
 
 			function keyPress(e) {
-
-				// Up key
-			    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop + 30) {
-			        $("#direction").text("Up arrow");
-			        dolphinTop -= moveIncrement; 
-			        $("#player").css("top", dolphinTop + "px");
-			    }
-
-			    // Down key
-			    else if (e.keyCode == 40 && dolphinTop < gameBoundaryBottom - 15) {
-			    	$("#direction").text("Down arrow");
-			    	dolphinTop += moveIncrement; 
-			    	$("#player").css("top", dolphinTop + "px");
-			    }
+				if (gamePaused == false) {
+					// Up key
+				    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop + 30) {
+				        $("#direction").text("Up arrow");
+				        dolphinTop -= moveIncrement; 
+				        $("#player").css("top", dolphinTop + "px");
+				    }
+				    // Down key
+				    else if (e.keyCode == 40 && dolphinTop < gameBoundaryBottom - 15) {
+				    	$("#direction").text("Down arrow");
+				    	dolphinTop += moveIncrement; 
+				    	$("#player").css("top", dolphinTop + "px");
+				    }
+				}
+				else {
+					return;
+				}
 			}
+
+
+			// PAUSING THE GAME
+
+			function pauseMovements() {
+				gamePaused = true;
+				clearInterval(movingSeahorses);
+				clearInterval(movingSquid);
+				clearInterval(increaseScore);
+				clearInterval(squidCollision);
+			}
+
+			$("#pause").click(function() {
+				pauseMovements();
+				showPlayerPrompt();
+				$("#player-start").text("PAUSED");
+				$("#resume").css("visibility", "visible");
+				if (player1Turn == true) {
+					$("#player").attr("src", "img/dolphin_player_1.png");
+				}
+				else {
+					$("#player").attr("src", "img/dolphin_player_2.png");
+				}
+			});
 
 
 			// PLAYER SCORING
@@ -210,13 +249,6 @@ $(document).ready(function() {
 
 			// END OF TURN, GAME OVER 
 
-			function pauseMovements() {
-				clearInterval(movingSeahorses);
-				clearInterval(movingSquid);
-				clearInterval(increaseScore);
-				clearInterval(squidCollision);
-			}
-
 			function gameOver() {
 				pauseMovements();
 				$("#player").attr("src", "img/dolphin_game_over_animation.gif");
@@ -263,7 +295,7 @@ $(document).ready(function() {
 				}
 			}
 
-		})};
+		}
 
 	}
 
