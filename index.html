@@ -30,7 +30,6 @@
 		<h6 class="white" id="legal">
 			Based on the Atari 2600 game. &copy; 2016 Ryne Schillinger
 		</h6>
-
 	</div>
 
 	<!-- 
@@ -44,33 +43,37 @@
 	<!-- 
 	Game Elements -->
 
-	<img src="img/dolphin_player_1.png" alt="player" id="player">
+	<div id="game">
 
-	<img src="img/squid.png" alt="squid" id="squid">
+		<img src="img/dolphin_player_1.png" alt="player" id="player">
 
-	<div id="seahorse-wall">
-		<div class="seahorse">
-			<img src="img/seahorse.svg" alt="seahorse">
+		<img src="img/squid.png" alt="squid" id="squid">
+
+		<div id="seahorse-wall">
+			<div class="seahorse">
+				<img src="img/seahorse.svg" alt="seahorse">
+			</div>
+			<div class="seahorse">
+				<img src="img/seahorse.svg" alt="seahorse">
+			</div>
+			<div id="empty"></div>
+			<div class="seahorse">
+				<img src="img/seahorse.svg" alt="seahorse">
+			</div>
+			<div class="seahorse">
+				<img src="img/seahorse.svg" alt="seahorse">
+			</div>
+			<div class="seahorse">
+				<img src="img/seahorse.svg" alt="seahorse">
+			</div>
+			<div class="seahorse">
+				<img src="img/seahorse.svg" alt="seahorse">
+			</div>
 		</div>
-		<div class="seahorse">
-			<img src="img/seahorse.svg" alt="seahorse">
-		</div>
-		<div id="empty"></div>
-		<div class="seahorse">
-			<img src="img/seahorse.svg" alt="seahorse">
-		</div>
-		<div class="seahorse">
-			<img src="img/seahorse.svg" alt="seahorse">
-		</div>
-		<div class="seahorse">
-			<img src="img/seahorse.svg" alt="seahorse">
-		</div>
-		<div class="seahorse">
-			<img src="img/seahorse.svg" alt="seahorse">
-		</div>
+
+		<div id="game-boundary"></div>
+
 	</div>
-
-	<div id="game-boundary"></div>
 
 	<!-- 
 	Scoreboard & Actions -->
@@ -83,7 +86,7 @@
 			<h3 class="blue">Player 2: <span class="white" id="player-2-score">0</span></h3>
 		</div>
 		<div class="button-column">
-			<button id="pause">Enter: PAUSE</button>
+			<button id="pause">PAUSE</button>
 		</div>
 	</div>
 

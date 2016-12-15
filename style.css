@@ -12,56 +12,46 @@ body {
 
 #game-boundary {
 	width: 99%;
-	height: 560px;
+	height: 63%;
 	position: absolute;
-	top: 162px;
+	top: 18%;
 }
 
 #player {
-	width: 254px;
-	height: 86px;
+	width: 15%;
+	height: 9.7%;
 	position: absolute;
-	top: 335px;
-	left: 600px;
+	top: 38%;
+	left: 36%;
 }
 
 #squid {
-	width: 230px;
-	left: 50px;
+	width: 13.7%;
+	left: 3%;
 	position: absolute;
-	top: 350px;
-}
-
-#obstacle {
-	width: 100px;
-	height: 100px;
-	background-color: red;
-	position: absolute;
-	top: 60vh;
-	left: 1575px;
-	right: 0;
+	top: 39%;
 }
 
 #seahorse-wall {
 	position: absolute;
-	left: 1600px;
-	top: 165px;
-	height: 560px;
-	width: 50px;
+	left: 95%;
+	top: 18.6%;
+	height: 63%;
+	width: 3%;
 }
 
 .seahorse {
 	display: block;
-	padding: 5px 0px;
+	padding: 12% 0px;
 	width: 100%;
-	height: 60px;
+	height: 10.7%;
 }
 
 #empty {
 	display: block;
-	padding: 5px 0px;
+	padding: 10% 0px;
 	width: 100%;
-	height: 120px;
+	height: 21.4%;
 }
 
 h3 {
@@ -76,11 +66,13 @@ p {
 	position: absolute;
 	display: flex;
 	justify-content: center;
-	width: 95%;
+	width: 97%;
+	overflow: none;
 	bottom: 0;
 	left: 10;
-	padding: 0px 0px 1px 30px;
+	padding: 0px 0px .1% 3%;
 	color: white;
+	background-color: black;
 }
 
 .score-column {
@@ -124,7 +116,6 @@ button {
 	font-family: 'Press Start 2P', cursive;
 	font-size: 15px;
 	padding: 14px 13px 12px 16px;
-	margin-bottom: 16px;
 	transition-property: background-color, box-shadow;
 	transition-duration: 100ms;
 	cursor: pointer;
@@ -136,9 +127,13 @@ button:hover, button:active {
 
 }
 
+button#pause {
+	margin: 0 5% 3% 0;
+}
+
 #prompts {
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -171,7 +166,7 @@ button:hover, button:active {
 }
 
 #dolphin-title {
-	width: 800px;
+	width: 47%;
 	margin-top: 4%;
 }
 
@@ -208,4 +203,14 @@ h6#legal {
 	letter-spacing: 2px;
 	font-size: 11px;
 	margin: 4% 0 2% 0;
+}
+
+#game {
+	visibility: hidden;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
 }

@@ -2,19 +2,21 @@ $(document).ready(function() {
 
 	// SETTING POSITIONS & GAME CONTROLS
 
+	var windowHeight = window.innerHeight;
+	var windowWidth = window.innerWidth;
 	var playerPromptDuration = 2000;
-	var gameBoundaryTop = $("#game-boundary").position().top;
-	var gameBoundaryBottom = $(window).height() - 250;
-	var dolphinTop = $("#player").position().top;
-	var dolphinLeft = $("#player").position().left;
-	var squidTop = $("#squid").position().top;
-	var squidRight = $("#squid").position().left + 230;
-	var seahorsesLeft = $("#seahorse-wall").position().left;
+	var gameBoundaryTop = Math.round(windowHeight*.184);
+	var gameBoundaryBottom = Math.round(windowHeight*.716);
+	var dolphinTop = Math.round(windowHeight*.38);
+	var dolphinLeft = Math.round(windowWidth*.357);
+	var squidTop = Math.round(windowHeight*.397);
+	var squidRight = Math.round(windowWidth*.1665);
+	var seahorsesLeft = Math.round(windowWidth*.952);
 	var emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
 	var player1Score = 0;
 	var player2Score = 0;
 	var player1Turn = true;
-	var moveIncrement = 45;
+	var moveIncrement = windowHeight*.05;
 	var hasSeahorseCollided = false;
 
 
@@ -22,9 +24,10 @@ $(document).ready(function() {
 
 	$("#start").click(function() {
 	    $("#main-title").hide();
+	    $("#game").css("visibility", "visible");
 	    initiateGameplay();
 	});
-	
+
 
 	function initiateGameplay() {
 
@@ -47,7 +50,7 @@ $(document).ready(function() {
 
 		// BEGIN GAMPLEPLAY ONLY AFTER PLAYER START PROMPT HAS DISAPPEARED
 		function startGameplay() { setTimeout(function() {
-			console.log(player1Turn);
+
 
 			// START PLAYER CHARACTER ANIMATION
 			if (player1Turn == true) {
@@ -180,7 +183,7 @@ $(document).ready(function() {
 					seahorsesOrder = [];
 					randomSeahorsesOrder();
 					makeNewSeahorses(seahorsesOrder);
-					seahorsesLeft = 1600;
+					seahorsesLeft = Math.round(windowWidth*.952);
 					$(newSeahorses).insertAfter("#squid");
 					emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
 					hasSeahorseCollided = false;
@@ -191,8 +194,8 @@ $(document).ready(function() {
 			// DETECTING COLLISIONS
 
 			var seahorsesCollision = window.setInterval(function(){
-				if ((dolphinLeft + 254 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + 54) && (dolphinTop <= emptyTop - 10 || dolphinTop >= emptyTop + 70) && hasSeahorseCollided == false) {
-					dolphinLeft -= 130; 
+				if ((dolphinLeft + windowWidth*.15 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + windowWidth*.03) && (dolphinTop <= emptyTop - windowHeight*.012 || dolphinTop >= emptyTop + windowHeight*.079) && hasSeahorseCollided == false) {
+					dolphinLeft -= windowWidth*.077; 
 					$("#player").css("left", dolphinLeft + "px");
 					hasSeahorseCollided = true;
 				} 
