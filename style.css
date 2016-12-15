@@ -68,6 +68,10 @@ h3 {
 	font-size: 26px;
 }
 
+p {
+	font-size: 16px;
+}
+
 #scoreboard {
 	position: absolute;
 	display: flex;
@@ -136,6 +140,7 @@ button:hover, button:active {
 	width: 100%;
 	height: 100vh;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0,0,28,.8);
@@ -143,6 +148,64 @@ button:hover, button:active {
 }
 
 #player-start {
-	margin-bottom: 50px;
 	color: white;
+}
+
+#restart {
+	visibility: hidden;
+	margin-right: 20px;
+}
+
+#main-title {
+	width: 100%;
+	height: 100vh;
+	background-color: #0c048b;
+	z-index: 2;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#dolphin-title {
+	width: 800px;
+	margin-top: 4%;
+}
+
+#title-buttons {
+	margin: 4% 0;
+}
+
+button#start {
+	color: #0c048b;
+	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 white;
+}
+
+button#start:hover {
+	background-color: #fec92f;
+	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 #fec92f;
+}
+
+button#instructions {
+	color: white;
+	background-color: #0c048b;
+	border: 2px solid white;
+	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 white;
+	transition-property: color, border, box-shadow;
+	margin: 0 8px 0 20px;
+}
+
+button#instructions:hover {
+	color: #fec92f;
+	border: 2px solid #fec92f;
+	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 #fec92f;
+}
+
+h6#legal {
+	letter-spacing: 2px;
+	font-size: 11px;
+	margin: 4% 0 2% 0;
 }

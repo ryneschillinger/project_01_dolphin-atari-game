@@ -18,6 +18,13 @@ $(document).ready(function() {
 	var hasSeahorseCollided = false;
 
 
+	// CLICK "START GAME" FROM TITLE SCREEN
+
+	$("#start").click(function() {
+	    $("#main-title").hide();
+	});
+
+
 	// START PLAYER'S TURN WITH PROMPT
 
 	window.onload = playerPromptTimer();
@@ -216,6 +223,7 @@ $(document).ready(function() {
 				else {
 					compareScores();
 					pauseMovements();
+					$("#restart").css("visibility", "visible");
 				}
 				showPlayerPrompt();
 			}, playerPromptDuration);
