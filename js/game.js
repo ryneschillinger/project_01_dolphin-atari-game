@@ -12,12 +12,18 @@ $(document).ready(function() {
 	var squidTop = Math.round(windowHeight*.397);
 	var squidRight = Math.round(windowWidth*.1665);
 	var seahorsesLeft = Math.round(windowWidth*.952);
+	var fishTop = "";
+	var fishLeft = "";
+	var fishRight = "";
+	var randomFishTop = Math.random * (gameBoundaryBottom-gameBoundaryTop);
+	var newFishies = "<img src='img/fish.png' alt='fish' id='fish'>";
 	var emptyTop = $("#empty").position().top + $("#seahorse-wall").position().top;
 	var player1Score = 0;
 	var player2Score = 0;
 	var player1Turn = true;
 	var moveIncrement = windowHeight*.05;
 	var hasSeahorseCollided = false;
+	var squidMovingDown = true;
 	var gamePaused = false;
 
 
@@ -50,11 +56,15 @@ $(document).ready(function() {
 
 		// RESUMING GAME AFTER PAUSE
 
-		$("#resume").click(function() {
+		function resumeGame() {
 			gamePaused = false;
 			$("#resume").css("visibility", "hidden");
 			$("#prompts").hide();
 			startGameplay();
+		}
+
+		$("#resume").click(function() {
+			resumeGame();
 		});
 
 
@@ -80,19 +90,24 @@ $(document).ready(function() {
 			function keyPress(e) {
 				if (gamePaused == false) {
 					// Up key
-				    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop + 30) {
-				        $("#direction").text("Up arrow");
+				    if (e.keyCode == 38 && dolphinTop > gameBoundaryTop) {
 				        dolphinTop -= moveIncrement; 
 				        $("#player").css("top", dolphinTop + "px");
 				    }
 				    // Down key
-				    else if (e.keyCode == 40 && dolphinTop < gameBoundaryBottom - 15) {
-				    	$("#direction").text("Down arrow");
+				    else if (e.keyCode == 40 && dolphinTop < gameBoundaryBottom) {
 				    	dolphinTop += moveIncrement; 
 				    	$("#player").css("top", dolphinTop + "px");
 				    }
+				    // Enter key: pause
+				    else if (e.keyCode == 13) {
+				    	pauseGame();
+				    }
 				}
-				else {
+				else if (gamePaused == true) {
+					if (e.keyCode == 13) {
+				    	resumeGame();
+				    }
 					return;
 				}
 			}
@@ -100,16 +115,18 @@ $(document).ready(function() {
 
 			// PAUSING THE GAME
 
-			function pauseMovements() {
-				gamePaused = true;
+			function stopMovements() {
 				clearInterval(movingSeahorses);
 				clearInterval(movingSquid);
 				clearInterval(increaseScore);
 				clearInterval(squidCollision);
+				clearInterval(movingFish);
+				clearInterval(fishCollision);
 			}
 
-			$("#pause").click(function() {
-				pauseMovements();
+			function pauseGame() {
+				gamePaused = true;
+				stopMovements();
 				showPlayerPrompt();
 				$("#player-start").text("PAUSED");
 				$("#resume").css("visibility", "visible");
@@ -119,6 +136,10 @@ $(document).ready(function() {
 				else {
 					$("#player").attr("src", "img/dolphin_player_2.png");
 				}
+			}
+
+			$("#pause").click(function() {
+				pauseGame();
 			});
 
 
@@ -138,9 +159,7 @@ $(document).ready(function() {
 
 			// MAKING SQUID MOVE UP AND DOWN
 
-			var squidMovingDown = true;
-
-			var movingSquid = window.setInterval(function(){
+			var movingSquid = setInterval(function(){
 				if (squidMovingDown == true) {
 					squidTop += 1; 
 					if (squidTop == gameBoundaryBottom + 10) {
@@ -159,7 +178,7 @@ $(document).ready(function() {
 
 			// MAKING SEAHORSES MOVE LEFT
 
-			var movingSeahorses = window.setInterval(function(){
+			var movingSeahorses = setInterval(function() {
 				seahorsesLeft -= 3; 
 				$("#seahorse-wall").css("left", seahorsesLeft + "px");
 			}, 5);
@@ -230,9 +249,41 @@ $(document).ready(function() {
 			});
 
 
+			// OCCASIONALLY ADD FISH BOOSTS
+
+			// 1. Adding a fish boost
+
+			function newFishBoost() {
+				randomFishTop = Math.floor((Math.random() * (gameBoundaryBottom - gameBoundaryBottom*.2) + gameBoundaryTop));
+				console.log(randomFishTop);
+				$(newFishies).insertAfter("#player");
+				$("#fish").css("top", randomFishTop + "px").css("left", 1);
+				fishTop = $("#fish").position().top;
+				fishLeft = $("#fish").position().left;
+				fishRight = $("#fish").position().left + Math.round(windowWidth*.052);
+			}
+
+			var movingFish = setInterval(function(){
+				fishLeft += 4; 
+				$("#fish").css("left", fishLeft + "px");
+			}, 5);
+
+			var addingFish = setInterval(function() {
+				newFishBoost();
+			}, 7000);
+
+			// 2. Removing fish boost once it's left screen
+
+			var clearFishies = window.setInterval(function() { 
+				if (fishLeft >= windowWidth - (windowWidth*.052)) {
+					$("#fish").remove();
+				}
+			});
+
+
 			// DETECTING COLLISIONS
 
-			var seahorsesCollision = window.setInterval(function(){
+			var seahorsesCollision = window.setInterval(function() {
 				if ((dolphinLeft + windowWidth*.15 >= seahorsesLeft && dolphinLeft <= seahorsesLeft + windowWidth*.03) && (dolphinTop <= emptyTop - windowHeight*.012 || dolphinTop >= emptyTop + windowHeight*.079) && hasSeahorseCollided == false) {
 					dolphinLeft -= windowWidth*.077; 
 					$("#player").css("left", dolphinLeft + "px");
@@ -240,9 +291,19 @@ $(document).ready(function() {
 				} 
 			}, 1);
 
-			var squidCollision = window.setInterval(function(){
-				if (dolphinLeft <= squidRight && (dolphinTop >= squidTop - 68 && dolphinTop <= squidTop + 68)) {
+			var squidCollision = window.setInterval(function() {
+				if (dolphinLeft <= squidRight && (dolphinTop >= squidTop - windowHeight*.077 && dolphinTop <= squidTop + windowHeight*.077)) {
 					gameOver();
+					gamePaused = true;
+				} 
+			}, 1);
+
+			var fishCollision = window.setInterval(function() {
+				if (dolphinLeft <= (fishLeft + windowWidth*.052) && (dolphinTop >= fishTop - windowHeight*.072 && dolphinTop <= fishTop + windowHeight*.072)) {
+					$("#fish").remove();
+					fishLeft = NaN;
+					dolphinLeft += windowWidth*.04; 
+					$("#player").css("left", dolphinLeft + "px");
 				} 
 			}, 1);
 
@@ -250,7 +311,7 @@ $(document).ready(function() {
 			// END OF TURN, GAME OVER 
 
 			function gameOver() {
-				pauseMovements();
+				stopMovements();
 				$("#player").attr("src", "img/dolphin_game_over_animation.gif");
 				setTimeout(function() {
 					if (player1Turn == true) {
@@ -261,8 +322,10 @@ $(document).ready(function() {
 					}
 					else {
 						compareScores();
-						pauseMovements();
-						$("#restart").css("visibility", "visible");
+						stopMovements();
+						setTimeout(function() {
+							window.location.reload();
+						}, 3500);
 					}
 					showPlayerPrompt();
 				}, playerPromptDuration);
@@ -277,7 +340,9 @@ $(document).ready(function() {
 				dolphinTop = $("#player").position().top;
 				dolphinLeft = $("#player").position().left;
 				$("#player").attr("src", "img/dolphin_player_2.png");
+				$("#fish").remove();
 				seahorsesLeft = 0;
+				fishLeft = 0;
 			}
 
 
@@ -294,7 +359,7 @@ $(document).ready(function() {
 					$("#player-start").text("Player 2 wins!");
 				}
 			}
-
+			
 		}
 
 	}

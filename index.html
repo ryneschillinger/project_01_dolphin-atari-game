@@ -14,19 +14,21 @@
 
 	<div id="main-title">
 		<img src="img/dolphin_title.png" alt="dolphin title" id="dolphin-title">
-		<span class="centered" id="title-buttons">
-			<button id="start" value="start game">START GAME</button>
-			<button id="instructions">SEE HIGH SCORES</button>
-		</span>
-		<p class="white">
-			Use the UP and DOWN arrow keys to avoid seahorses.
-		</p>
-		<p class="white">
-			Don't let the seahorses push you into the giant squid!
-		</p>
-		<p class="white">
-			Fish are your friends. They give you a little boost.
-		</p>
+
+		<div id="instructions">
+			<p class="white">
+				Tap the UP and DOWN arrow keys to avoid seahorses.
+			</p>
+			<p class="white">
+				Don't let the seahorses push you into the giant squid!
+			</p>
+			<p class="white">
+				Fish are your friends. They give you a little boost.
+			</p>
+		</div>
+
+		<button id="start" value="start game">START GAME</button>
+
 		<h6 class="white" id="legal">
 			Based on the Atari 2600 game. &copy; 2016 Ryne Schillinger
 		</h6>
@@ -38,7 +40,6 @@
 	<div id="prompts">
 		<h3 id="player-start">Player 1: START</h3>
 		<button id="resume">RESUME</button>
-		<button id="restart">PLAY AGAIN</button>
 	</div>
 
 	<!-- 
@@ -87,7 +88,7 @@
 			<h3 class="blue">Player 2: <span class="white" id="player-2-score">0</span></h3>
 		</div>
 		<div class="button-column">
-			<button id="pause">PAUSE</button>
+			<button id="pause">Enter: PAUSE</button>
 		</div>
 	</div>
 

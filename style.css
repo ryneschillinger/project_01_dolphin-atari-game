@@ -60,6 +60,7 @@ h3 {
 
 p {
 	font-size: 16px;
+	padding: 1% 0;
 }
 
 #scoreboard {
@@ -89,7 +90,7 @@ p {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	width: 14%;
+	width: 18%;
 	margin: 0 1%;
 	padding-right: 3%;
 }
@@ -170,13 +171,10 @@ button#pause {
 	margin-top: 4%;
 }
 
-#title-buttons {
-	margin: 4% 0;
-}
-
 button#start {
 	color: #0c048b;
 	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 white;
+	margin-top: 2.5%;
 }
 
 button#start:hover {
@@ -184,19 +182,9 @@ button#start:hover {
 	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 #fec92f;
 }
 
-button#instructions {
-	color: white;
-	background-color: #0c048b;
-	border: 2px solid white;
-	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 white;
-	transition-property: color, border, box-shadow;
-	margin: 0 8px 0 20px;
-}
-
-button#instructions:hover {
-	color: #fec92f;
-	border: 2px solid #fec92f;
-	box-shadow: 6px 6px 0 #0c048b, 8px 8px 0 #fec92f;
+#instructions {
+	margin-top: 2.5%;
+	text-align: center;
 }
 
 h6#legal {
@@ -218,4 +206,30 @@ h6#legal {
 button#resume {
 	visibility: hidden;
 	margin-right: 10px;
+}
+
+#fish {
+	width: 5.2%;
+	position: absolute;
+	top: 55%;
+	left: 36%;	
+}
+
+
+/* Reduce font size on smaller screens s*/
+
+@media all and (max-width: 1280px) {
+
+	h3 {
+		font-size: 22px;
+	}
+
+	p {
+		font-size: 14px;
+	}
+
+	button {
+		font-size: 13px;
+	}
+
 }
